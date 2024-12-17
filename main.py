@@ -17,7 +17,7 @@ def main():
 
     # Connect to the MikroTik router
     try:
-        ssh.connect('192.168.2.2', username='admin', password='rpi')
+        ssh.connect('192.168.2.11', username='admin', password='rpi')
     except paramiko.SSHException as e:
         print(f"Error connecting to the host: {e}")
         return
@@ -27,6 +27,9 @@ def main():
         'connected', 'frequency', 'remote-address', 'tx-mcs', 'tx-phy-rate', 
         'signal', 'rssi', 'tx-sector', 'tx-sector-info', 'distance', 'tx-packet-error-rate'
     ]
+    # commands = [
+    #     'tx-sector-info'
+    # ]
     
     # Initialize a list to store the data for each iteration
     data = []
@@ -35,7 +38,7 @@ def main():
         while True:
             # Collect results
             results = [execute_command(ssh, f'/interface w60g {{:put ([monitor wlan60-1 once as-value ]->"{cmd}")}}') for cmd in commands]
-            
+            print(results)
             # Append results to data list
             data.append(results)
             
